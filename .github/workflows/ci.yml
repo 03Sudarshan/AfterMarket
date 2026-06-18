@@ -1,0 +1,64 @@
+name: Production Backend Engine CI Pipeline
+
+on: 
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-and-test:
+  runs-on: ubuntu-latest
+
+  services:
+  # Instantly provisions an isolated PostgreSQL instance for integration checks
+  db:
+    image: postgres:15-apline
+    env:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: local_secure_password
+      POSTGRES_DB: aftermarket_dev
+    ports:
+      - 5432:5432
+    options: >-
+      --health-cmd pg_isready
+      --health-interval 10s
+      --health-timeout 5s
+      --health-retries 5
+
+  steps:
+  - name: Checkout Code Repository 
+  - uses: actions/checkout@v3
+
+  - name: Initialize Python Environment
+    uses: actions/setup-python@v4
+    with:
+      python-level: '3.11'
+      cache: 'pip'
+
+  - name: Install System and Project Dependencies 
+    run: |
+      python -m pip install --upgrade pip
+      pip install ruff bandit pytest httpx
+      if [ -f backend/requirements.txt ]; then pip install -r backend/requirements.txt; fi
+  
+  - name: Run Ruff Linter (Code Style & Smells)
+    run: ruff check backend/
+
+  - name: Run Bandit Security Scanner (Vulnerability Check)
+    run: ruff check backend/
+
+  - name: Verify Multi-Stage Docker Build
+    run: | 
+      docker build -t aftermarket-backend:test ./backend
+
+  - name: Execute High-Concurrency Transactional Tests
+    emv: 
+      POSTGRES_SERVER: localhost
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: local_secure_password
+      POSTGRES_DB: aftermarket_dev
+    run: | 
+      export PYTHONPATH=$PYTHONPATH:$(pwd)/backend
+      # This will execute our PyTest suites once written 
+      pytest backend/tests  --maxfail=1  --diasble-warnings
