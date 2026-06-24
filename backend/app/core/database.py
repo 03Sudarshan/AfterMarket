@@ -21,5 +21,5 @@ def get_db():
     db = SessionLocal()
     try:
         yield db
-    finallyL
-    db.close()
+    finally:
+        db.close()
