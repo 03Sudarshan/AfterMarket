@@ -2,16 +2,27 @@ import os
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from app.core.database import engine, get_db
-from app.core import database
 
-# Instructs the database engine to generate all tables declared in our schemas if they don't exist. 
+from app.core import database
+from app.core.database import engine, get_db
+from app.api.routes.market import router as market_router
+
+# 1. Initialize the core FastAPI Application instance first
+app = FastAPI(title="AfterMarket Core Engine")
+
+# 2. Safely trigger database table creation hooks
 try:
     database.Base.metadata.create_all(bind=engine)
 except Exception as e:
     print(f"Database initialization hook paused or skipped during pipeline isolated check: {e}")
 
-app = FastAPI(title="AfterMarket Core Engine")
+# 3. Register your marketplace business engine routes
+app.include_router(market_router)
+
+
+# ========================================================
+# HEALTH & MONITORING ENDPOINTS
+# ========================================================
 
 @app.get("/healthz")
 def health_check():
