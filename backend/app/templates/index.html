@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfterMarket | Performance Parts & Fitment Auctions</title>
+    <style>
+        :root {
+            --am-bg: #0b0f17;
+            --am-surface: #131b2e;
+            --am-card: #182238;
+            --am-border: #243454;
+            --am-cyan: #00f0ff;
+            --am-cyan-glow: rgba(0, 240, 255, 0.25);
+            --am-blue: #2563eb;
+            --am-text: #f8fafc;
+            --am-muted: #94a3b8;
+            --am-green: #10b981;
+            --am-red: #f43f5e;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--am-bg);
+            color: var(--am-text);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #070a10;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--am-cyan);
+            box-shadow: 0 4px 20px var(--am-cyan-glow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--am-cyan);
+            text-shadow: 0 0 10px var(--am-cyan);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-list {
+            background-color: transparent;
+            color: var(--am-cyan);
+            border: 1px solid var(--am-cyan);
+            font-weight: 800;
+            padding: 8px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+
+        .btn-list:hover {
+            background-color: var(--am-cyan);
+            color: #000;
+            box-shadow: 0 0 12px var(--am-cyan);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        /* FEATURED TAB / HERO BANNER */
+        .featured-banner {
+            background: linear-gradient(135deg, rgba(19, 27, 46, 0.95) 0%, rgba(24, 34, 56, 0.9) 100%),
+                        url('https://images.unsplash.com/photo-1611821064430-0d40291d0f0b?auto=format&fit=crop&w=1200&q=80') center/cover;
+            border: 1px solid var(--am-cyan);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 0 25px var(--am-cyan-glow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background-color: var(--am-cyan);
+            color: #000;
+            font-weight: 900;
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .featured-content {
+            max-width: 650px;
+            z-index: 2;
+        }
+
+        .featured-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin: 0 0 8px 0;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .featured-desc {
+            color: var(--am-muted);
+            font-size: 0.95rem;
+            margin: 0 0 18px 0;
+            line-height: 1.5;
+        }
+
+        .featured-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .featured-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--am-cyan);
+        }
+
+        .btn-featured-action {
+            background-color: var(--am-cyan);
+            color: #000;
+            font-weight: 800;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-featured-action:hover {
+            box-shadow: 0 0 15px var(--am-cyan);
+            transform: translateY(-2px);
+        }
+
+        /* Controls Section */
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            background-color: var(--am-surface);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--am-border);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .search-box input {
+            width: 100%;
+            background-color: var(--am-bg);
+            border: 1px solid var(--am-border);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--am-cyan);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .tag-btn {
+            background-color: var(--am-bg);
+            border: 1px solid var(--am-border);
+            color: var(--am-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tag-btn.active, .tag-btn:hover {
+            border-color: var(--am-cyan);
+            color: var(--am-cyan);
+            background-color: rgba(0, 240, 255, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            color: var(--am-text);
+            border-left: 4px solid var(--am-cyan);
+            padding-left: 12px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--am-card);
+            border: 1px solid var(--am-border);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--am-cyan);
+            box-shadow: 0 8px 24px var(--am-cyan-glow);
+        }
+
+        .card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .badge-type {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: var(--am-cyan);
+            color: #000000;
+            font-weight: 900;
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .stats-bar {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background-color: rgba(7, 10, 16, 0.85);
+            border: 1px solid var(--am-border);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 4px;
+            backdrop-filter: blur(4px);
+        }
+
+        .stats-bar span {
+            color: var(--am-cyan);
+        }
+
+        .card-body {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .item-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin: 0 0 6px 0;
+            color: #ffffff;
+        }
+
+        .item-desc {
+            font-size: 0.85rem;
+            color: var(--am-muted);
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        .click-hint {
+            margin-top: auto;
+            font-size: 0.78rem;
+            color: var(--am-cyan);
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: right;
+        }
+
+        /* Modal Base */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background-color: var(--am-surface);
+            border: 1px solid var(--am-cyan);
+            box-shadow: 0 0 30px var(--am-cyan-glow);
+            width: 90%;
+            max-width: 700px;
+            border-radius: 12px;
+            overflow: hidden;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header-img {
+            height: 240px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0,0,0,0.7);
+            color: #fff;
+            border: 1px solid var(--am-border);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+        }
+
+        .modal-desc {
+            color: var(--am-muted);
+            line-height: 1.5;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .detail-box {
+            background-color: var(--am-bg);
+            border: 1px solid var(--am-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .detail-item label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--am-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .detail-item span {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            font-size: 0.78rem;
+            color: var(--am-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        input[type="text"], input[type="number"], select, textarea {
+            background-color: var(--am-bg);
+            border: 1px solid var(--am-border);
+            color: #fff;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--am-cyan);
+        }
+
+        .btn-action-bid {
+            background-color: var(--am-cyan);
+            color: #000;
+            font-weight: 800;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn-action-buyout {
+            background-color: var(--am-green);
+            color: #000;
+            font-weight: 800;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .status-msg {
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 8px;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">AFTER<span>MARKET</span></a>
+        <div class="nav-actions">
+            <!-- FLASHIER ACTION BUTTON -->
+            <button class="btn-list" onclick="openCreateListingModal()">+ LIST SPEC BUILD</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- FEATURED HERO SECTION -->
+        <div id="featured-banner" class="featured-banner">
+            <div class="featured-content">
+                <span class="featured-badge">🔥 Featured Fitment / Build</span>
+                <h1 id="featured-title" class="featured-title">Apex VS-5RS Forged Track Wheel Set</h1>
+                <p id="featured-desc" class="featured-desc">18x10.5 ET22 5x120 fitment. Lightweight, high rigidity forged aluminum setup tailored for BMW E46 / E92 / F80 track & stance configurations.</p>
+                <div class="featured-stats">
+                    <span id="featured-price" class="featured-price">Current Bid: $1,850</span>
+                    <button class="btn-featured-action" onclick="openFeaturedModal()">Inspect Spec & Bid</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search track/stance specs, fitments, bolt patterns, brands..." onkeyup="filterListings()">
+            </div>
+            <div class="filter-tags">
+                <button class="tag-btn active" onclick="setCategoryFilter('all', this)">All Specs</button>
+                <button class="tag-btn" onclick="setCategoryFilter('wheels', this)">Wheels & Tires</button>
+                <button class="tag-btn" onclick="setCategoryFilter('exhaust', this)">Exhaust</button>
+                <button class="tag-btn" onclick="setCategoryFilter('suspension', this)">Suspension</button>
+                <button class="tag-btn" onclick="setCategoryFilter('brakes', this)">Brakes</button>
+                <button class="tag-btn" onclick="setCategoryFilter('aero', this)">Aero & Body</button>
+                <button class="tag-btn" onclick="setCategoryFilter('performance', this)">Engine & Cooling</button>
+            </div>
+        </div>
+
+        <h2 class="section-title">Active Spec Auctions</h2>
+        <div id="listings-grid" class="grid">
+            <p style="color: var(--am-muted);">Connecting to engine...</p>
+        </div>
+    </div>
+
+    <!-- Detail View Modal -->
+    <div id="modal-overlay" class="modal-overlay" onclick="closeModal(event, 'modal-overlay')">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div id="modal-img" class="modal-header-img">
+                <button class="close-btn" onclick="closeModalDirect('modal-overlay')">✕</button>
+            </div>
+            <div class="modal-body">
+                <h2 id="modal-title" class="modal-title">Part Title</h2>
+                <p id="modal-desc" class="modal-desc">Description</p>
+
+                <div class="detail-box">
+                    <div class="detail-item"><label>Condition</label><span id="modal-condition">Used</span></div>
+                    <div class="detail-item"><label>Starting Price</label><span id="modal-start">$0</span></div>
+                    <div class="detail-item"><label>Buyout Option</label><span id="modal-buyout" style="color: var(--am-cyan);">$0</span></div>
+                    <div class="detail-item"><label>Listing Status</label><span id="modal-status" style="color: var(--am-green);">Active</span></div>
+                </div>
+
+                <div class="modal-actions">
+                    <input type="number" id="modal-bid-input" placeholder="Enter bid amount ($)" step="25">
+                    <button class="btn-action-bid" onclick="submitModalBid(false)">Place Offer Bid</button>
+                    <button id="modal-buyout-btn" class="btn-action-buyout" onclick="submitModalBid(true)">Instant Buyout</button>
+                    <div id="modal-status-msg" class="status-msg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Listing Modal -->
+    <div id="create-modal-overlay" class="modal-overlay" onclick="closeModal(event, 'create-modal-overlay')">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div style="padding: 18px 24px; border-bottom: 1px solid var(--am-border); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; text-transform: uppercase; color: var(--am-cyan); letter-spacing: 0.5px;">POST SPEC LISTING</h3>
+                <button class="close-btn" style="position: static;" onclick="closeModalDirect('create-modal-overlay')">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="create-listing-form" onsubmit="handleCreateListing(event)">
+                    <div class="form-group">
+                        <label>Component / Build Title</label>
+                        <input type="text" id="create-title" placeholder="e.g. Apex VS-5RS 18x10.5 ET22 5x120" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="create-category">
+                                <option value="wheels">Wheels & Fitment</option>
+                                <option value="exhaust">Exhaust</option>
+                                <option value="suspension">Suspension & Air/Coils</option>
+                                <option value="brakes">Brakes</option>
+                                <option value="aero">Aero & Bodywork</option>
+                                <option value="performance">Engine & Cooling</option>
+                                <option value="interior">Interior & Cockpit</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Condition</label>
+                            <select id="create-condition">
+                                <option value="Brand New / Mint">Brand New / Mint</option>
+                                <option value="Excellent / Low Miles">Excellent / Low Miles</option>
+                                <option value="Track / Street Tested">Track / Street Tested</option>
+                                <option value="Refurbished / Custom Finish">Refurbished / Custom Finish</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Starting Price ($)</label>
+                            <input type="number" id="create-start-price" placeholder="500" min="1" step="10" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Buy Now Price ($) (Optional)</label>
+                            <input type="number" id="create-buy-price" placeholder="1200" min="1" step="10">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" id="create-image-url" placeholder="https://...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Technical Details & Fitment Specs</label>
+                        <textarea id="create-desc" rows="4" placeholder="Specify wheel offsets, bolt pattern, stance camber compatibility, track heat cycles, or defect notes..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-action-bid" style="width: 100%; margin-top: 10px;">Publish Listing to Market</button>
+                    <div id="create-status-msg" class="status-msg"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '';
+        let currentListings = [];
+        let featuredItem = null;
+        let activeListingId = null;
+        let selectedCategory = 'all';
+
+        const partImages = {
+            1: 'https://images.unsplash.com/photo-1611821064430-0d40291d0f0b?auto=format&fit=crop&w=800&q=80',
+            2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmrYm1dE_wY7NPafkEh8jI5lMwTy9rnmsVWfLPKJjIQw&s=10',
+            3: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy1NdlVT6P3wHRpkMigxORAAoyctVxc4kkrNq_Q4OLNg&s=10',
+            4: 'https://vorsteiner.com/cdn/shop/products/BMW_F8X_M3-M4_Carbon-Fiber_Front-Spoiler_3.png?v=1756507825&width=1080',
+            5: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzlseI1vF0-s2_s8jdH7HwzPJKfl2Z820Z19_PyiTbJw&s=10',
+            6: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYioQ2bKzktWv9h2grZhNTxp6jDyfGYCMeOfKgIetQqQ&s=10'
+        };
+
+        const defaultFallbackImage = 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80';
+
+        function getPartImageUrl(item) {
+            if (item.image_url && item.image_url.startsWith('http')) {
+                return item.image_url;
+            }
+            return partImages[item.id] || defaultFallbackImage;
+        }
+
+        async function fetchListings() {
+            const grid = document.getElementById('listings-grid');
+            if (!grid) return;
+
+            try {
+                const res = await fetch(`${API_URL}/market/items`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                currentListings = await res.json();
+                
+                if (currentListings.length > 0) {
+                    featuredItem = currentListings.find(i => i.is_featured) || currentListings[0];
+                    updateFeaturedBanner(featuredItem);
+                }
+
+                renderGrid(currentListings);
+            } catch (err) {
+                grid.innerHTML = '<p style="color: var(--am-red);">Failed to connect to backend engine.</p>';
+            }
+        }
+
+        function updateFeaturedBanner(item) {
+            if (!item) return;
+            document.getElementById('featured-title').innerText = item.title;
+            document.getElementById('featured-desc').innerText = item.description || 'High demand component matched to your search and fitment preferences.';
+            document.getElementById('featured-price').innerText = `Current Bid: $${item.starting_price}`;
+            const banner = document.getElementById('featured-banner');
+            const imgUrl = getPartImageUrl(item);
+            banner.style.background = `linear-gradient(135deg, rgba(19, 27, 46, 0.95) 0%, rgba(24, 34, 56, 0.9) 100%), url('${imgUrl}') center/cover`;
+        }
+
+        function openFeaturedModal() {
+            if (featuredItem) {
+                openDetailModal(featuredItem.id, getPartImageUrl(featuredItem));
+            }
+        }
+
+        function renderGrid(items) {
+            const grid = document.getElementById('listings-grid');
+            grid.innerHTML = '';
+
+            if (!Array.isArray(items) || items.length === 0) {
+                grid.innerHTML = '<p style="color: var(--am-muted);">No active auctions found matching criteria.</p>';
+                return;
+            }
+
+            items.forEach(item => {
+                const imgUrl = getPartImageUrl(item);
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openDetailModal(item.id, imgUrl);
+                card.innerHTML = `
+                    <div class="card-img" style="background-image: url('${imgUrl}');">
+                        <span class="badge-type">${item.category || 'Spec Build'}</span>
+                        <div class="stats-bar">
+                            Current: <span>$${item.starting_price}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="item-title">${item.title || 'Untitled Listing'}</h3>
+                        <div class="item-desc">${item.description || 'No description available.'}</div>
+                        <div class="click-hint">View Specs & Bid ➔</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterListings() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = currentListings.filter(item => {
+                const matchesCategory = selectedCategory === 'all' || (item.category && item.category.toLowerCase() === selectedCategory.toLowerCase());
+                const matchesSearch = (item.title && item.title.toLowerCase().includes(query)) ||
+                                      (item.description && item.description.toLowerCase().includes(query));
+                return matchesCategory && matchesSearch;
+            });
+            renderGrid(filtered);
+        }
+
+        function setCategoryFilter(category, element) {
+            selectedCategory = category;
+            document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            filterListings();
+        }
+
+        function openDetailModal(id, imgUrl) {
+            const item = currentListings.find(i => i.id === id);
+            if (!item) return;
+
+            activeListingId = id;
+            document.getElementById('modal-img').style.backgroundImage = `url('${imgUrl}')`;
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-desc').innerText = item.description || 'No additional technical notes provided.';
+            document.getElementById('modal-condition').innerText = item.condition || 'Mint / Excellent';
+            document.getElementById('modal-start').innerText = `$${item.starting_price}`;
+            
+            const buyoutBtn = document.getElementById('modal-buyout-btn');
+            if (item.buy_now_price) {
+                document.getElementById('modal-buyout').innerText = `$${item.buy_now_price}`;
+                buyoutBtn.style.display = 'block';
+                buyoutBtn.innerText = `Instant Buyout ($${item.buy_now_price})`;
+            } else {
+                document.getElementById('modal-buyout').innerText = 'N/A';
+                buyoutBtn.style.display = 'none';
+            }
+
+            document.getElementById('modal-status-msg').innerText = '';
+            document.getElementById('modal-bid-input').value = '';
+            document.getElementById('modal-overlay').style.display = 'flex';
+        }
+
+        function openCreateListingModal() {
+            document.getElementById('create-status-msg').innerText = '';
+            document.getElementById('create-modal-overlay').style.display = 'flex';
+        }
+
+        function closeModal(event, modalId) {
+            if (event.target.id === modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
+        }
+
+        function closeModalDirect(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        async function submitModalBid(isBuyout) {
+            const statusDiv = document.getElementById('modal-status-msg');
+            const item = currentListings.find(i => i.id === activeListingId);
+            if (!item) return;
+
+            let amount = isBuyout ? item.buy_now_price : parseFloat(document.getElementById('modal-bid-input').value);
+
+            if (!amount || amount <= 0) {
+                statusDiv.innerHTML = "<span style='color: var(--am-red);'>Please enter a valid bid amount.</span>";
+                return;
+            }
+
+            statusDiv.innerText = "Processing transaction with database...";
+
+            try {
+                const res = await fetch(`${API_URL}/market/bids`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ listing_id: activeListingId, bidder_id: 2, amount: amount })
+                });
+
+                if (res.ok) {
+                    statusDiv.innerHTML = isBuyout ? "<span style='color: var(--am-green); font-weight: bold;'>ITEM BOUGHT OUT! AUCTION CLOSED.</span>" : "<span style='color: var(--am-cyan); font-weight: bold;'>OFFER SUBMITTED TO POSTGRES!</span>";
+                    setTimeout(() => {
+                        closeModalDirect('modal-overlay');
+                        fetchListings();
+                    }, 1600);
+                } else {
+                    const errData = await res.json();
+                    statusDiv.innerHTML = `<span style="color: var(--am-red);">${errData.detail || 'Bid failed.'}</span>`;
+                }
+            } catch (err) {
+                statusDiv.innerHTML = "<span style='color: var(--am-red);'>Server connection error.</span>";
+            }
+        }
+
+        async function handleCreateListing(event) {
+            event.preventDefault();
+            const statusDiv = document.getElementById('create-status-msg');
+            statusDiv.innerText = "Publishing spec listing to backend...";
+
+            const payload = {
+                title: document.getElementById('create-title').value,
+                category: document.getElementById('create-category').value,
+                condition: document.getElementById('create-condition').value,
+                starting_price: parseFloat(document.getElementById('create-start-price').value),
+                buy_now_price: document.getElementById('create-buy-price').value ? parseFloat(document.getElementById('create-buy-price').value) : null,
+                image_url: document.getElementById('create-image-url').value || null,
+                description: document.getElementById('create-desc').value,
+                seller_id: 1
+            };
+
+            try {
+                const res = await fetch(`${API_URL}/market/items`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    statusDiv.innerHTML = "<span style='color: var(--am-green); font-weight: bold;'>LISTING SUCCESSFULLY CREATED!</span>";
+                    setTimeout(() => {
+                        document.getElementById('create-listing-form').reset();
+                        closeModalDirect('create-modal-overlay');
+                        fetchListings();
+                    }, 1500);
+                } else {
+                    const errData = await res.json();
+                    statusDiv.innerHTML = `<span style="color: var(--am-red);">${errData.detail || 'Failed to create listing.'}</span>`;
+                }
+            } catch (err) {
+                statusDiv.innerHTML = "<span style='color: var(--am-red);'>Server connection error.</span>";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchListings);
+    </script>
+</body>
+</html>
